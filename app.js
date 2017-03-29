@@ -7,12 +7,13 @@ server.listen(8482, function() {
 });
 
 server.get('/', function(req, res) {
-	mongoClient.connect("mongodb://localhost:27017/exampleDb", function(err, db) {
+	mongoClient.connect("mongodb://localhost:27017/nodejsdb", function(err, db) {
 		if (!err) {
-			console.log("Mongo database connection successfully");
-			res.send('Mongo database connection successfully');
+			console.log("Mongo database connection successful");
+			res.send('Mongo database connection successful');
+		} else {
+			console.log(err);
 		}
-		console.log(err);
 	})
 });
 
