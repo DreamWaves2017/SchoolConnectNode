@@ -1,20 +1,14 @@
 var mongoClient = require('mongodb').MongoClient;
 var express = require('express');
+var repository = require('./repository')
 var server = express();
 
 server.listen(8482, function() {
-	console.log("NodeJs server started successfully");
+	console.log("NodeJs server started successfully in port : 8482");
 });
 
 server.get('/', function(req, res) {
-	mongoClient.connect("mongodb://localhost:27017/nodejsdb", function(err, db) {
-		if (!err) {
-			console.log("Mongo database connection successful");
-			res.send('Mongo database connection successful');
-		} else {
-			console.log(err);
-		}
-	})
+	res.send(repository.printStudent());
 });
 
 server.get('/parents', function(req, res) {
