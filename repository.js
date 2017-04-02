@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-
+var GenerateSchema = require('generate-schema');
 
 mongoose.connect('mongodb://localhost:27017/nodejsdb');
 
@@ -22,7 +22,7 @@ var studentSchema = new Schema({
 
 var Student = mongoose.model('Student', studentSchema);
 
-function returnSingleStudent(callback) {
+module.exports.returnSingleStudent = function (callback) {
   Student.count({
     name: 'Dinesh'
   }, function (err, c) {
@@ -47,6 +47,8 @@ function returnSingleStudent(callback) {
   });
 }
 
-module.exports.printStudent = returnSingleStudent;
-// module.exports.findAll = findAll;
-module.exports.Student = Student;
+module.exports.allStudents = function(callback) {
+  Student.find().lean().exec(function(err, students){
+    return callback(null, JSON.stringify(students));
+  })
+}

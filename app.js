@@ -7,12 +7,9 @@ server.listen(8482, function () {
 	console.log("NodeJs server started successfully in port : 8482");
 });
 
-server.get('/', function (req, res) {
-	var callback = function (err, json) {
-		if (err) throw err;
-		res.send(json);
-	};
-	repository.returnSingleStudent(callback);
+server.get('/', function(req, res){
+	res.send('Hello There !! Hit Students api to see all students in database');
+	
 });
 
 server.get('/parents', function (req, res) {
@@ -20,5 +17,9 @@ server.get('/parents', function (req, res) {
 });
 
 server.get('/students', function (req, res) {
-	// res.send(repository.findAll());
+	var callback = function (err, json) {
+		if (err) throw err;
+		res.send(json);
+	};
+	repository.allStudents(callback);
 });
