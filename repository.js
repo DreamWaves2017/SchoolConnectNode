@@ -22,29 +22,29 @@ var studentSchema = new Schema({
 
 var Student = mongoose.model('Student', studentSchema);
 
-module.exports.returnSingleStudent = function (callback) {
+module.exports.saveStudentToDB = function (name, rollNo, className, callback) {
   Student.count({
-    name: 'Dinesh'
-  }, function (err, c) {
+    rollNo: rollNo
+  }, function (err, count) {
     if (err) throw callback(err, null);
-    if (c == 1) {
-      Student.find().lean().exec(function (err, students) {
-        callback(null, JSON.stringify(students));
-      });
+    if (count == 1) {
+      console.log(name + ' already present in Database. Skipping Insert')
     } else {
       var newStudent = Student({
-        name: 'Dinesh',
-        rollNo: 1,
-        className: 'Ece A',
+        name: name,
+        rollNo: rollNo,
+        className: className,
       });
-      newStudent.save(function (err) {
-        if (err) throw callback(err, null);
-        Student.find().lean().exec(function (err, students) {
-          return callback(null, JSON.stringify(students));
-        });
-      });
+      saveFromModel(newStudent, callback);
     }
   });
+}
+
+function saveFromModel(newStudent, callback) {
+    newStudent.save(function (err) {
+        if (err) throw callback(err, null);
+        console.log(newStudent.name + ' saved Successfully')
+      });
 }
 
 module.exports.allStudents = function(callback) {
