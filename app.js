@@ -1,6 +1,9 @@
 var express = require('express');
 var repository = require('./repository')
 var server = express();
+var bodyParser = require('body-parser');
+server.use(bodyParser.json());
+
 
 server.listen(8482, function () {
 	console.log("NodeJs server started successfully in port : 8482");
@@ -32,4 +35,16 @@ server.get('/saveStudents', function (req, res){
 		repository.saveStudentToDB('Yuvi', 4, 'csc_c', saveCallBack);
 		repository.saveStudentToDB('Santosh', 5, 'ece_a', saveCallBack);
 		res.send('Hurray! Operations Complete');
+});
+
+server.post('/saveStudentFromJson', function(req, res){
+		repository.saveFromJson(req.body, function(err) {
+			if(err) {
+				console.log(err);
+				res.send(err);
+			} else{
+			console.log('Object Saved');
+			res.send('Json Object has been saved successfully');	
+			}
+		});
 });

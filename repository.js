@@ -47,6 +47,15 @@ function saveFromModel(newStudent, callback) {
       });
 }
 
+module.exports.saveFromJson = function (body, callback) {
+    var obj = body;
+    delete obj._id;
+console.log(obj);
+    Student.update({rollNo : obj.rollNo}, obj,{upsert: true}, function(err, resp){
+      if(err) callback(err);
+    });
+}
+
 module.exports.allStudents = function(callback) {
   Student.find().lean().exec(function(err, students){
     return callback(null, JSON.stringify(students));
