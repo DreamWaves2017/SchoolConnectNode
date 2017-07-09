@@ -17,6 +17,10 @@ var studentSchema = new Schema({
   className: {
     type: String
   },
+  section: {
+    type: String,
+    required: true
+  },
   createdAt: Date
 });
 
